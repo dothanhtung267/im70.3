@@ -13,14 +13,20 @@
       padding: 20px;
     }
     .container {
-      max-width: 500px;
+      max-width: 600px;
       margin: auto;
     }
     .title {
       text-align: center;
       font-size: 28px;
       font-weight: bold;
-      margin-bottom: 10px;
+      margin-bottom: 5px;
+    }
+    .subtitle {
+      text-align: center;
+      font-size: 14px;
+      color: #666;
+      margin-bottom: 20px;
     }
     .countdown-box {
       background: red;
@@ -47,27 +53,33 @@
       padding: 15px;
       margin-bottom: 20px;
       font-size: 16px;
+      background: #e0e0e0;
     }
     .upcoming-item {
       padding: 10px;
       border-radius: 12px;
       margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      gap: 10px;
+    }
+    .rainbow-bg {
+      background: #e53935;
+      color: white !important;
     }
   </style>
 </head>
 <body>
   <div class="container">
     <div class="title">🏁 Road to IM 70.3 Đà Nẵng</div>
+    <div class="subtitle">by Tung Do</div>
     <div id="countdown" class="countdown-box">Đang tải...</div>
-
     <div id="today" class="today-box section">Đang tải...</div>
-
     <div class="section">
       <h2>📅 Lịch tập sắp tới</h2>
       <div id="upcoming"></div>
     </div>
   </div>
-
   <script>
     const schedule = [
       "2025-04-14|🏊 1.6km kỹ thuật + core 15’ (~50')",
@@ -100,13 +112,15 @@
       "2025-05-11|🛌 Nghỉ hoặc đi bộ nhẹ (~20')",
     ];
 
+    const weekdays = ["CN", "Thứ 2", "Thứ 3", "Thứ 4", "Thứ 5", "Thứ 6", "Thứ 7"];
+
     const colors = {
       swim: "#e0f0ff",
       run: "#e6ffe6",
       bike: "#fffacc",
       rest: "#e0e0e0",
       brick: "linear-gradient(to right, #a0d8ef, #ffffcc, #ccffcc)",
-      race: "#ff0000",
+      race: "#e53935",
     };
 
     function getColor(workout) {
@@ -143,12 +157,12 @@
         const [dateStr, workout] = line.split("|");
         const date = new Date(dateStr);
         if (date.getTime() === today.getTime()) {
-          box.textContent = `(${date.getDate()}/${date.getMonth() + 1}) – ${workout}`;
+          box.innerHTML = `<strong>Hôm nay:</strong><br>(${date.getDate()}/${date.getMonth() + 1}) – ${workout}`;
           box.style.background = getColor(workout);
           return;
         }
       }
-      box.textContent = "Không có lịch tập hôm nay.";
+      box.innerHTML = `<strong>Hôm nay:</strong><br>(Không có lịch tập)`;
       box.style.background = colors.rest;
     }
 
@@ -162,8 +176,10 @@
         if (date >= today) {
           const div = document.createElement("div");
           div.className = "upcoming-item";
+          const dow = weekdays[date.getDay()];
           div.style.background = getColor(workout);
-          div.textContent = `${date.getDate()}/${date.getMonth() + 1} – ${workout}`;
+          div.innerHTML = `<div><strong>${dow}</strong> ${date.getDate()}/${date.getMonth() + 1}</div><div>${workout}</div>`;
+          if (workout.includes("RACE DAY")) div.classList.add("rainbow-bg");
           container.appendChild(div);
         }
       }
