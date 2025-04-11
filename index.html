@@ -1,146 +1,178 @@
-import { useState, useEffect } from "react";
-
-const rawSchedule = [
-  "2025-04-14|🏊 1.6km kỹ thuật + core 15’ (~50')",
-  "2025-04-15|🏃 Tempo 8km @5:25/km (~45')",
-  "2025-04-16|🏊 2.0km endurance (~55')",
-  "2025-04-17|🚴 1h15 Z2 + intervals (~75')",
-  "2025-04-18|🏊 1.5km nhẹ + pick-up (~45')",
-  "2025-04-19|🚴 75–85km + 🏃 5km brick (~3h30')",
-  "2025-04-20|🏃 Long run 16km @6:00/km (~1h40')",
-
-  "2025-04-21|🏊 1.6km kỹ thuật + core 20’ (~55')",
-  "2025-04-22|🏃 6×800m intervals (~50')",
-  "2025-04-23|🏊 2.2km steady pace (~60')",
-  "2025-04-24|🚴 1h20 Z2 + sweet spot (~80')",
-  "2025-04-25|🏊 1.4km + sprint drill (~40')",
-  "2025-04-26|🏊 + 🚴 + 🏃 race sim (~4h–4h30')",
-  "2025-04-27|❌ Nghỉ hoàn toàn",
-
-  "2025-04-28|🏊 1.2km nhẹ + giãn cơ (~40')",
-  "2025-04-29|🏃 Tempo 6km @pace đua (~35')",
-  "2025-04-30|🏊 1.5km nhẹ + drill (~45')",
-  "2025-05-01|🚴 1h Z2 + burst (~60')",
-  "2025-05-02|🏊 1.5km steady pace (~45')",
-  "2025-05-03|🚴 50km + 🏃 5km brick (~2h30')",
-  "2025-05-04|🏃 Easy run 6–8km (~45')",
-
-  "2025-05-05|🏊 1.2km nhẹ kỹ thuật (~35')",
-  "2025-05-06|🏃 5km nhẹ + strides (~35')",
-  "2025-05-07|🏊 800m + 4×50m pick-up (~30')",
-  "2025-05-08|🚴 45' nhẹ Z2 (~45')",
-  "2025-05-09|❌ Nghỉ hoàn toàn",
-  "2025-05-10|🗿 RACE DAY – Ironman 70.3",
-  "2025-05-11|🛌 Nghỉ hoặc đi bộ nhẹ (~20')"
-];
-
-function getCountdownParts() {
-  const now = new Date();
-  const raceDay = new Date("2025-05-10T00:00:00");
-  const diff = raceDay.getTime() - now.getTime();
-
-  if (diff <= 0) {
-    return { finished: true };
-  }
-
-  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
-  const minutes = Math.floor((diff / (1000 * 60)) % 60);
-  const seconds = Math.floor((diff / 1000) % 60);
-
-  return { days, hours, minutes, seconds, finished: false };
-}
-
-function getColorForWorkout(workout) {
-  if (workout.includes("race sim") || workout.includes("brick")) return "bg-gradient-to-r from-blue-200 via-yellow-200 to-green-200 text-green-900";
-  if (workout.includes("❌") || workout.includes("🛌")) return "bg-gray-100 text-gray-500";
-  if (workout.includes("RACE DAY")) return "bg-red-600 text-white";
-  if (workout.includes("🏊")) return "bg-blue-50 text-blue-800";
-  if (workout.includes("🚴")) return "bg-yellow-50 text-yellow-800";
-  if (workout.includes("🏃")) return "bg-green-50 text-green-800";
-  return "";
-}
-
-function getTodayAndUpcomingSessions(schedule) {
-  const today = new Date();
-  today.setHours(0, 0, 0, 0);
-
-  const parsedSchedule = schedule.map((line) => {
-    const [dateStr, workout] = line.split("|");
-    const date = new Date(dateStr);
-    return { date, workout };
-  });
-
-  const todayItem = parsedSchedule.find((item) => item.date.getTime() === today.getTime());
-  const futureItems = parsedSchedule.filter((item) => item.date >= today);
-
-  return { todayItem, futureItems };
-}
-
-export default function IronmanTracker() {
-  const [todaySession, setTodaySession] = useState("");
-  const [todayColor, setTodayColor] = useState("");
-  const [upcomingSessions, setUpcomingSessions] = useState([]);
-  const [countdown, setCountdown] = useState(getCountdownParts());
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdown(getCountdownParts());
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    const { todayItem, futureItems } = getTodayAndUpcomingSessions(rawSchedule);
-    if (todayItem) {
-      setTodaySession(`(${todayItem.date.getDate()}/${todayItem.date.getMonth() + 1}) – ${todayItem.workout}`);
-      setTodayColor(getColorForWorkout(todayItem.workout));
-    } else {
-      setTodaySession("Không có lịch tập cho hôm nay.");
-      setTodayColor("bg-gray-50 text-gray-400");
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Road to IM 70.3 Đà Nẵng</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen;
+      background-color: #f2f2f7;
+      color: #333;
+      padding: 20px;
     }
-    setUpcomingSessions(futureItems);
-  }, []);
+    .container {
+      max-width: 500px;
+      margin: auto;
+    }
+    .title {
+      text-align: center;
+      font-size: 28px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+    .countdown-box {
+      background: red;
+      color: white;
+      font-size: 28px;
+      font-weight: bold;
+      text-align: center;
+      border-radius: 20px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .section {
+      background: white;
+      border-radius: 16px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+    .section h2 {
+      font-size: 18px;
+      margin-bottom: 10px;
+    }
+    .today-box {
+      border-radius: 16px;
+      padding: 15px;
+      margin-bottom: 20px;
+      font-size: 16px;
+    }
+    .upcoming-item {
+      padding: 10px;
+      border-radius: 12px;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="title">🏁 Road to IM 70.3 Đà Nẵng</div>
+    <div id="countdown" class="countdown-box">Đang tải...</div>
 
-  return (
-    <div className="bg-[#f2f2f7] min-h-screen px-4 py-6 font-sans text-gray-800">
-      <div className="max-w-xl mx-auto space-y-6">
-        <div className="text-center">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">🏁 Road to IM 70.3 Đà Nẵng</h1>
-          <div className="rounded-3xl px-6 py-4 bg-red-500 text-white text-3xl font-semibold tracking-widest shadow-md">
-            {countdown.finished ? (
-              <span>🔥 Có finish không?</span>
-            ) : (
-              <span>
-                {String(countdown.days).padStart(2, '0')}d :
-                {String(countdown.hours).padStart(2, '0')}h :
-                {String(countdown.minutes).padStart(2, '0')}m :
-                {String(countdown.seconds).padStart(2, '0')}s
-              </span>
-            )}
-          </div>
-        </div>
+    <div id="today" class="today-box section">Đang tải...</div>
 
-        <div className={`${todayColor} rounded-2xl p-5 shadow-md`}> 
-          <h2 className="text-lg font-semibold text-gray-900 mb-2">Hôm nay tập gì?</h2>
-          <p className="text-base font-medium leading-relaxed">{todaySession}</p>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow-md p-4">
-          <h2 className="text-lg font-semibold text-gray-900 mb-3">📅 Lịch tập sắp tới</h2>
-          <div className="divide-y divide-gray-200">
-            {upcomingSessions.map((item, index) => (
-              <div
-                key={index}
-                className={`py-2 px-3 rounded-xl my-1 ${getColorForWorkout(item.workout)} ${item.date.getTime() === new Date().setHours(0, 0, 0, 0) ? 'font-bold border border-black' : ''}`}
-              >
-                <div className="text-sm font-medium">{`${item.date.getDate()}/${item.date.getMonth() + 1}`}</div>
-                <div className="text-sm whitespace-pre-line">{item.workout}</div>
-              </div>
-            ))}
-          </div>
-        </div>
-      </div>
+    <div class="section">
+      <h2>📅 Lịch tập sắp tới</h2>
+      <div id="upcoming"></div>
     </div>
-  );
-}
+  </div>
+
+  <script>
+    const schedule = [
+      "2025-04-14|🏊 1.6km kỹ thuật + core 15’ (~50')",
+      "2025-04-15|🏃 Tempo 8km @5:25/km (~45')",
+      "2025-04-16|🏊 2.0km endurance (~55')",
+      "2025-04-17|🚴 1h15 Z2 + intervals (~75')",
+      "2025-04-18|🏊 1.5km nhẹ + pick-up (~45')",
+      "2025-04-19|🚴 75–85km + 🏃 5km brick (~3h30')",
+      "2025-04-20|🏃 Long run 16km @6:00/km (~1h40')",
+      "2025-04-21|🏊 1.6km kỹ thuật + core 20’ (~55')",
+      "2025-04-22|🏃 6×800m intervals (~50')",
+      "2025-04-23|🏊 2.2km steady pace (~60')",
+      "2025-04-24|🚴 1h20 Z2 + sweet spot (~80')",
+      "2025-04-25|🏊 1.4km + sprint drill (~40')",
+      "2025-04-26|🏊 + 🚴 + 🏃 race sim (~4h–4h30')",
+      "2025-04-27|❌ Nghỉ hoàn toàn",
+      "2025-04-28|🏊 1.2km nhẹ + giãn cơ (~40')",
+      "2025-04-29|🏃 Tempo 6km @pace đua (~35')",
+      "2025-04-30|🏊 1.5km nhẹ + drill (~45')",
+      "2025-05-01|🚴 1h Z2 + burst (~60')",
+      "2025-05-02|🏊 1.5km steady pace (~45')",
+      "2025-05-03|🚴 50km + 🏃 5km brick (~2h30')",
+      "2025-05-04|🏃 Easy run 6–8km (~45')",
+      "2025-05-05|🏊 1.2km nhẹ kỹ thuật (~35')",
+      "2025-05-06|🏃 5km nhẹ + strides (~35')",
+      "2025-05-07|🏊 800m + 4×50m pick-up (~30')",
+      "2025-05-08|🚴 45' nhẹ Z2 (~45')",
+      "2025-05-09|❌ Nghỉ hoàn toàn",
+      "2025-05-10|🗿 RACE DAY – Ironman 70.3",
+      "2025-05-11|🛌 Nghỉ hoặc đi bộ nhẹ (~20')",
+    ];
+
+    const colors = {
+      swim: "#e0f0ff",
+      run: "#e6ffe6",
+      bike: "#fffacc",
+      rest: "#e0e0e0",
+      brick: "linear-gradient(to right, #a0d8ef, #ffffcc, #ccffcc)",
+      race: "#ff0000",
+    };
+
+    function getColor(workout) {
+      if (workout.includes("race sim") || workout.includes("brick")) return colors.brick;
+      if (workout.includes("❌") || workout.includes("🛌")) return colors.rest;
+      if (workout.includes("RACE DAY")) return colors.race;
+      if (workout.includes("🏊")) return colors.swim;
+      if (workout.includes("🚴")) return colors.bike;
+      if (workout.includes("🏃")) return colors.run;
+      return "#fff";
+    }
+
+    function updateCountdown() {
+      const now = new Date();
+      const raceDay = new Date("2025-05-10T00:00:00");
+      const diff = raceDay - now;
+      const cd = document.getElementById("countdown");
+      if (diff <= 0) {
+        cd.textContent = "🔥 Có finish không?";
+        return;
+      }
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+      const mins = Math.floor((diff / (1000 * 60)) % 60);
+      const secs = Math.floor((diff / 1000) % 60);
+      cd.textContent = `${days}d : ${hours}h : ${mins}m : ${secs}s`;
+    }
+
+    function loadToday() {
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      const box = document.getElementById("today");
+      for (let line of schedule) {
+        const [dateStr, workout] = line.split("|");
+        const date = new Date(dateStr);
+        if (date.getTime() === today.getTime()) {
+          box.textContent = `(${date.getDate()}/${date.getMonth() + 1}) – ${workout}`;
+          box.style.background = getColor(workout);
+          return;
+        }
+      }
+      box.textContent = "Không có lịch tập hôm nay.";
+      box.style.background = colors.rest;
+    }
+
+    function loadUpcoming() {
+      const container = document.getElementById("upcoming");
+      const today = new Date();
+      today.setHours(0, 0, 0, 0);
+      for (let line of schedule) {
+        const [dateStr, workout] = line.split("|");
+        const date = new Date(dateStr);
+        if (date >= today) {
+          const div = document.createElement("div");
+          div.className = "upcoming-item";
+          div.style.background = getColor(workout);
+          div.textContent = `${date.getDate()}/${date.getMonth() + 1} – ${workout}`;
+          container.appendChild(div);
+        }
+      }
+    }
+
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+    loadToday();
+    loadUpcoming();
+  </script>
+</body>
+</html>
