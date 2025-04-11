@@ -162,21 +162,49 @@
     }
 
     function loadToday() {
-      const today = new Date();
-      today.setHours(0, 0, 0, 0);
-      const box = document.getElementById("today");
-      for (let line of schedule) {
-        const [dateStr, workout] = line.split("|");
-        const date = new Date(dateStr);
-        if (date.getTime() === today.getTime()) {
-          box.innerHTML = `<strong>Hôm nay:</strong><br>(${date.getDate()}/${date.getMonth() + 1}) – ${workout}`;
-          box.style.background = getColor(workout);
-          return;
-        }
-      }
-      box.innerHTML = `<strong>Hôm nay:</strong><br>Không có lịch tập!`;
-      box.style.background = colors.rest;
+  // Lấy ngày hiện tại, đặt thời gian về 0:00
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  // Kiểm tra trong console xem ngày hiện tại
+  console.log("Today's date:", today);
+
+  // Lấy phần tử HTML "today"
+  const box = document.getElementById("today");
+
+  // Kiểm tra xem phần tử "today" có tồn tại không
+  if (!box) {
+    console.error("Element with ID 'today' not found.");
+    return;
+  }
+
+  // Lặp qua lịch tập
+  let found = false;
+  for (let line of schedule) {
+    const [dateStr, workout] = line.split("|");
+    const date = new Date(dateStr);
+
+    // Kiểm tra từng dòng lịch tập
+    console.log("Checking date:", date, "Workout:", workout);
+
+    // So sánh nếu ngày lịch khớp với ngày hiện tại
+    if (date.getTime() === today.getTime()) {
+      box.innerHTML = `<strong>Hôm nay:</strong><br>(${date.getDate()}/${date.getMonth() + 1}) – ${workout}`;
+      box.style.background = getColor(workout);
+      console.log("Today's workout found:", workout);
+      found = true;
+      break;
     }
+  }
+
+  // Nếu không có lịch tập cho hôm nay
+  if (!found) {
+    box.innerHTML = `<strong>Hôm nay:</strong><br>Không có lịch tập!`;
+    box.style.background = colors.rest;
+    console.log("No workout scheduled for today.");
+  }
+}
+
 
     function loadUpcoming() {
       const container = document.getElementById("upcoming");
