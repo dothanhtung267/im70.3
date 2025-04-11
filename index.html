@@ -15,157 +15,157 @@
   <meta name="twitter:description" content="Lịch tập 4 tuần cuối chuẩn bị cho IM 70.3 Đà Nẵng" />
   <meta name="twitter:image" content="https://irace.vn/wp-content/uploads/2019/08/ironman-70.3-1.jpg" />
   <style>
-    body {
-      min-height: 100vh;
-  max-height: 100vh;
-  overflow-y: auto;
-  
-  display: flex;
-  align-items: center;
-  justify-content: center;
-      margin: 0;
-      font-family: 'Barlow Condensed', sans-serif;
-      background: #000;
-      color: #fff;
-      background-image: url('https://www.ironman.com/themes/custom/ironman_subtheme/images/bg-texture.jpg');
-      background-size: cover;
-      padding: 10px;
-    }
-    .container {
-        height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-      max-width: 800px;
-      margin: auto;
-      background-color: rgba(0, 0, 0, 0.85);
-      padding: 10px;
-      border-radius: 8px;
-    }
-    .title {
-      text-align: center;
-      font-size: clamp(30px, 5vw, 40px);
-      font-weight: 700;
-      margin-bottom: 10px;
-      color: #e10600;
-      text-transform: uppercase;
-    }
-    .subtitle {
-      text-align: center;
-      font-size: 16px;
-      color: #ccc;
-      margin-bottom: 30px;
-    }
-    .countdown-box {
-         font-size: clamp(16px, 4vw, 24px);
-  padding: clamp(10px, 4vw, 20px);
-      background: #e10600;
-      color: #fff;
-       max-width: 700px;
-      font-size: 24px;
-      text-align: center;
-      font-weight: bold;
-      padding: 10px;
-      border-radius: 4px;
-      margin: 0 auto 30px auto;
-      box-shadow: 0 0 20px #e10600aa;
-    }
-    .section {
-         flex-grow: 1;
-  overflow: hidden;
-  display: flex;
-  flex-direction: column;
-      background: #111;
-      padding: 20px;
-      border-radius: 4px;
-      box-shadow: 0 0 10px rgba(0,0,0,0.5);
-      margin-bottom: 30px;
-    }
-    .section h2 {
-      font-size: 22px;
-      text-align: center;
-      margin-bottom: 20px;
-      color: #fff;
-    }
-    .today-box {
-        font-size: clamp(16px, 4vw, 24px);
-  padding: clamp(10px, 4vw, 20px);
-      background: #1a1a1a;
-      padding: 20px;
-      font-size: 18px;
-      border-left: 5px solid #e10600;
-      margin-bottom: 30px;
-    }
-    .upcoming-item {
-  background: #222;
-  margin: 10px 0;
-  border-left: 5px solid #00000;
-  font-size: 16px;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all 0.4s ease;
-  max-height: 60px;
-  display: block;
-  padding: 15px 20px;
-  position: relative;
-}
+  body {
+    margin: 0;
+    font-family: 'Barlow Condensed', sans-serif;
+    background: #0d0d0d;
+    color: #fff;
+    background-image: url('https://www.ironman.com/themes/custom/ironman_subtheme/images/bg-texture.jpg');
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    min-height: 100vh;
+  }
 
-.upcoming-item div {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  transition: all 0.3s ease;
-}
+  .container {
+    max-width: 900px;
+    width: 100%;
+    background: rgba(15, 15, 15, 0.95);
+    border-radius: 16px;
+    padding: 30px 20px;
+    box-shadow: 0 0 25px rgba(255, 0, 0, 0.25);
+  }
 
-.upcoming-item.expanded {
-  max-height: 300px; /* đủ để hiện nội dung đầy đủ */
-  background: #333;
-  padding: 20px;
-}
+  .title {
+    font-size: clamp(32px, 6vw, 50px);
+    font-weight: 700;
+    text-transform: uppercase;
+    text-align: center;
+    color: #e10600;
+    letter-spacing: 1.5px;
+    margin-bottom: 5px;
+  }
 
-.upcoming-item.expanded div {
-  white-space: normal;
-  text-overflow: unset;
-}
+  .subtitle {
+    text-align: center;
+    color: #aaa;
+    font-size: 18px;
+    margin-bottom: 25px;
+  }
 
-      
-    }
-    .upcoming-item:hover {
-      background: #333;
-      transform: translateX(5px);
-    }
-    .rainbow-bg {
-      background: linear-gradient(90deg, #e10600, #ff4500);
-      color: #fff;
-      font-weight: bold;
-      animation: pulse 1.5s infinite;
-    }
-    @keyframes pulse {
-      0% { opacity: 1; }
-      50% { opacity: 0.75; }
-      100% { opacity: 1; }
-    }
-    #upcoming {
-          flex-grow: 1;
-  overflow-y: auto;
-  scrollbar-width: none;
-      max-height: 185px;
-      overflow-y: auto; overflow-y: auto;
-  overflow-x: hidden;
-  scrollbar-width: none; /* Firefox */
-}
-#upcoming::-webkit-scrollbar {
-  display: none; /* Chrome, Safari */
-    }
-    :root {
-      --swim: #1e3c72;
-      --run: #14532d;
-      --bike: #92400e;
-      --rest: #444;
-      --brick: linear-gradient(to right, #1e3c72, #92400e, #14532d);
-      --race: #e10600;
-    }
-  </style>
+  .countdown-box {
+    text-align: center;
+    font-size: clamp(20px, 5vw, 32px);
+    padding: 20px;
+    background: #e10600;
+    border-radius: 8px;
+    font-weight: bold;
+    box-shadow: 0 0 20px #e10600aa;
+    margin-bottom: 25px;
+  }
+
+  .today-box {
+    background: #1c1c1c;
+    padding: 20px;
+    font-size: 18px;
+    border-left: 6px solid #e10600;
+    border-radius: 8px;
+    margin-bottom: 25px;
+    box-shadow: 0 0 10px #111;
+    line-height: 1.6;
+  }
+
+  .section {
+    background: #111;
+    padding: 25px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.4);
+  }
+
+  .section h2 {
+    font-size: 24px;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #fff;
+  }
+
+  .upcoming-item {
+    background: #222;
+    margin: 10px 0;
+    border-left: 0px solid transparent;
+    font-size: 16px;
+    padding: 15px 20px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    overflow: hidden;
+    max-height: 65px;
+    position: relative;
+  }
+
+  .upcoming-item:hover {
+    background: #2e2e2e;
+    transform: translateX(5px);
+  }
+
+  .upcoming-item div {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: all 0.3s ease;
+  }
+
+  .upcoming-item.expanded {
+    max-height: 300px;
+    background: #333;
+  }
+
+  .upcoming-item.expanded div {
+    white-space: normal;
+    text-overflow: unset;
+  }
+
+  .rainbow-bg {
+    background: linear-gradient(90deg, #e10600, #ff6600, #e10600);
+    background-size: 300% 300%;
+    animation: pulse 3s infinite ease-in-out;
+    color: #fff;
+    font-weight: bold;
+  }
+
+  @keyframes pulse {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+
+  #upcoming {
+    max-height: 300px;
+    overflow-y: auto;
+    scrollbar-width: none;
+  }
+
+  #upcoming::-webkit-scrollbar {
+    width: 0px;
+  }
+
+  #upcoming::-webkit-scrollbar-thumb {
+    background: #e10600;
+    border-radius: 0px;
+  }
+
+  :root {
+    --swim: #1e3c72;
+    --run: #14532d;
+    --bike: #92400e;
+    --rest: #555;
+    --brick: linear-gradient(to right, #1e3c72, #92400e, #14532d);
+    --race: #e10600;
+  }
+</style>
+
 </head>
 <body>
   <div class="container">
