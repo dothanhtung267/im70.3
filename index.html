@@ -33,7 +33,7 @@
     }
     .title {
       text-align: center;
-      font-size: 36px;
+      font-size: clamp(30px, 5vw, 40px);
       font-weight: 700;
       margin-bottom: 10px;
       color: #e10600;
@@ -48,14 +48,13 @@
     .countdown-box {
       background: #e10600;
       color: #fff;
-       max-width: 300px;
+       max-width: clamp(300px, 8vw, 4000px);
       font-size: 24px;
       text-align: center;
       font-weight: bold;
       padding: 20px;
       border-radius: 4px;
       margin: 0 auto 30px auto;
-      width: fit-content;
       box-shadow: 0 0 20px #e10600aa;
     }
     .section {
@@ -80,35 +79,36 @@
     }
     .upcoming-item {
   background: #222;
-  padding: 15px 20px;
   margin: 10px 0;
   border-left: 5px solid #e10600;
-  display: flex;
-  justify-content: space-between;
   font-size: 16px;
-  transition: 0.3s;
-  cursor: pointer;
   overflow: hidden;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  max-height: 60px;
+  display: block;
+  padding: 15px 20px;
+  position: relative;
 }
+
 .upcoming-item div {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  flex: 1;
-  padding-right: 10px;
+  transition: all 0.3s ease;
 }
 
-/* Khi được mở rộng */
 .upcoming-item.expanded {
-  flex-direction: column;
-  align-items: flex-start;
+  max-height: 300px; /* đủ để hiện nội dung đầy đủ */
+  background: #333;
+  padding: 20px;
 }
+
 .upcoming-item.expanded div {
   white-space: normal;
-  overflow: visible;
   text-overflow: unset;
-  padding: 5px 0;
 }
+
       
     }
     .upcoming-item:hover {
@@ -234,7 +234,7 @@
           div.className = "upcoming-item";
           const dow = weekdays[date.getDay()];
           div.style.background = getColor(workout);
-          div.innerHTML = `<div><strong>${dow}</strong> ${date.getDate()}/${date.getMonth() + 1}</div><div>${workout}</div>`;
+          div.innerHTML = `<div><strong>${dow}</strong> -  ${date.getDate()}/${date.getMonth() + 1}</div><div>${workout}</div>`;
           if (workout.includes("RACE DAY")) div.classList.add("rainbow-bg");
           container.appendChild(div);
           
