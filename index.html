@@ -174,7 +174,7 @@
     <div id="countdown" class="countdown-box">Đang tải...</div>
     <div id="today" class="today-box">Đang tải...</div>
     <div id="daily-quote-box" class="today-box" style="background: #333;">
-  <strong>💬 ChatGPT đã từng nói:</strong><br><br>
+  <strong>💬 ChatGPT đã từng nói:</strong><br>
   <div id="daily-quote" style="font-style: italic;"></div>
 </div>
 
@@ -237,7 +237,7 @@
         date.setHours(0, 0, 0, 0);
 
         if (date.getTime() === today.getTime()) {
-          box.innerHTML = `<strong>Hôm nay </strong>(${date.getDate()}/${date.getMonth() + 1}): <br><br> ${workout}`;
+          box.innerHTML = `<strong>Hôm nay </strong>(${date.getDate()}/${date.getMonth() + 1}): <br> ${workout}`;
           box.style.background = getColor(workout);
           found = true;
           break;
