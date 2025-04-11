@@ -131,7 +131,7 @@
     <div id="countdown" class="countdown-box">Đang tải...</div>
     <div id="today" class="today-box section">Đang tải...</div>
     <div class="section">
-      <h2>📅 Lịch tập sắp tới</h2>
+      <h2>Lịch tập sắp tới:</h2>
       <div id="upcoming"></div>
     </div>
   </div>
@@ -188,7 +188,7 @@
         date.setHours(0, 0, 0, 0);
 
         if (date.getTime() === today.getTime()) {
-          box.innerHTML = `<strong>Hôm nay </strong>(${date.getDate()}/${date.getMonth() + 1}): <br> ${workout}`;
+          box.innerHTML = `<strong>Hôm nay </strong>(${date.getDate()}/${date.getMonth() + 1}): <br><br> ${workout}`;
           box.style.background = getColor(workout);
           found = true;
           break;
