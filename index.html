@@ -187,7 +187,6 @@
   <script>
       
     const schedule = [
-[
   "2026-02-01|🚴 1h15 Z2 steady (~75')",
   "2026-02-02|❌ Nghỉ",
   "2026-02-03|🏊 1.4km kỹ thuật + drill (~45')",
@@ -323,9 +322,14 @@
       return "#333";
     }
 
+    function parseLocalDate(dateStr) {
+      const [y, m, d] = dateStr.split("-").map(Number);
+      return new Date(y, m - 1, d);
+    }
+
     function updateCountdown() {
       const now = new Date();
-      const raceDay = new Date("2026-05-10T00:00:00");
+      const raceDay = parseLocalDate("2026-05-10");
       const diff = raceDay - now;
       const cd = document.getElementById("countdown");
       if (diff <= 0) {
@@ -347,7 +351,7 @@
       let found = false;
       for (let line of schedule) {
         const [dateStr, workout] = line.split("|");
-        const date = new Date(dateStr);
+        const date = parseLocalDate(dateStr);
         date.setHours(0, 0, 0, 0);
 
         if (date.getTime() === today.getTime()) {
@@ -370,7 +374,8 @@
       today.setHours(0, 0, 0, 0);
       for (let line of schedule) {
         const [dateStr, workout] = line.split("|");
-        const date = new Date(dateStr);
+        const date = parseLocalDate(dateStr);
+        date.setHours(0, 0, 0, 0);
         if (date >= today) {
           const div = document.createElement("div");
           div.className = "upcoming-item";
